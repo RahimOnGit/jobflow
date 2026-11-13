@@ -1,0 +1,82 @@
+[
+  {
+    "id": "1",
+    "title": "Fullstack-utvecklare",
+    "company": "Academic Work",
+    "extent": "Heltid",
+    "location": "Malmö",
+    "appliedDate": "2026-10-28",
+    "status": "applied",
+    "source": "email"
+  },
+  {
+    "id": "2",
+    "title": "Frontend-utvecklare",
+    "company": "Arbetsförmedlingen",
+    "extent": "Heltid",
+    "location": "Stockholm",
+    "appliedDate": "2026-10-27",
+    "status": "applied",
+    "source": "application"
+  },
+  {
+    "id": "3",
+    "title": "Systemutvecklare/Programmerare",
+    "company": "Prima Vård / Academic Work",
+    "extent": "Heltid",
+    "location": "Stockholm",
+    "appliedDate": "2026-10-18",
+    "status": "applied",
+    "source": "email"
+  },
+  {
+    "id": "4",
+    "title": "Systemutvecklare/Programmerare",
+    "company": "Mjuk Biltvätt",
+    "extent": "Heltid",
+    "location": "Göteborg",
+    "appliedDate": "2026-10-18",
+    "status": "applied",
+    "source": "application"
+  },
+  {
+    "id": "5",
+    "title": "Fullstack-utvecklare",
+    "company": "Friday",
+    "extent": "Heltid",
+    "location": "Göteborg",
+    "appliedDate": "2026-10-18",
+    "status": "applied",
+    "source": "email"
+  },
+  {
+    "id": "6",
+    "title": "Frontend-utvecklare",
+    "company": "GeoGuessr",
+    "extent": "Heltid",
+    "location": "Stockholm",
+    "appliedDate": "2026-10-17",
+    "status": "applied",
+    "source": "application"
+  },
+  {
+    "id": "7",
+    "title": "Fullstack-utvecklare",
+    "company": "Board Intelligence",
+    "extent": "Heltid",
+    "location": "Stockholm",
+    "appliedDate": "2026-10-17",
+    "status": "applied",
+    "source": "email"
+  },
+  {
+    "id": "8",
+    "title": "Fullstack-utvecklare",
+    "company": "Agile Recruit",
+    "extent": "Heltid",
+    "location": "Malmö",
+    "appliedDate": "2026-10-16",
+    "status": "applied",
+    "source": "application"
+  }
+]

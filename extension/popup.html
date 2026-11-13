@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      width: 340px;
+      background: #f8f9fa;
+      color: #1a1a2e;
+    }
+
+    .header {
+      background: #1a1a2e;
+      color: white;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .header h1 { font-size: 14px; font-weight: 600; }
+
+    .body { padding: 14px 16px; }
+
+    /* AI status banner */
+    #ai-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: #e8f4fd;
+      color: #1565c0;
+      min-height: 36px;
+    }
+    #ai-status.error   { background: #fdecea; color: #c62828; }
+    #ai-status.success { background: #e8f5e9; color: #2e7d32; }
+    #ai-status.hidden  { display: none; }
+
+    .spinner {
+      width: 14px; height: 14px;
+      border: 2px solid currentColor;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: #555;
+      margin: 10px 0 4px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 7px 9px;
+      font-size: 13px;
+      border: 1.5px solid #ddd;
+      border-radius: 5px;
+      background: white;
+      transition: border-color .15s;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #1a1a2e;
+    }
+    input.invalid { border-color: #e53935; background: #fff5f5; }
+    input.valid   { border-color: #43a047; background: #f6fff6; }
+
+    /* Autocomplete dropdown */
+    .autocomplete-wrap { position: relative; }
+
+    #title-suggestions {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0; right: 0;
+      background: white;
+      border: 1.5px solid #1a1a2e;
+      border-top: none;
+      border-radius: 0 0 5px 5px;
+      max-height: 180px;
+      overflow-y: auto;
+      z-index: 999;
+      box-shadow: 0 4px 12px rgba(0,0,0,.12);
+    }
+    #title-suggestions .item {
+      padding: 7px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    #title-suggestions .item:last-child { border-bottom: none; }
+    #title-suggestions .item:hover,
+    #title-suggestions .item.active { background: #1a1a2e; color: white; }
+
+    /* Hint under title field */
+    .field-hint {
+      font-size: 11px;
+      color: #888;
+      margin-top: 3px;
+    }
+    .field-hint.ok  { color: #2e7d32; }
+    .field-hint.bad { color: #e53935; }
+
+    /* API key row */
+    .api-row { display: flex; gap: 6px; align-items: center; }
+    .api-row input { font-size: 12px; }
+    .api-row button {
+      flex-shrink: 0;
+      padding: 7px 10px;
+      font-size: 11px;
+      white-space: nowrap;
+      background: #f0f0f0;
+      border: 1.5px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn-row { display: flex; gap: 8px; margin-top: 14px; }
+    button.primary {
+      flex: 1; padding: 9px;
+      font-size: 13px; font-weight: 700;
+      border: none; border-radius: 5px;
+      background: #1a1a2e; color: white; cursor: pointer;
+    }
+    button.primary:disabled { background: #999; cursor: default; }
+    button.secondary {
+      padding: 9px 13px; font-size: 12px; font-weight: 600;
+      border: 1.5px solid #ccc; border-radius: 5px;
+      background: white; cursor: pointer;
+    }
+
+    #save-status {
+      margin-top: 9px; font-size: 12px;
+      text-align: center; min-height: 16px;
+    }
+    .ok  { color: #2e7d32; }
+    .err { color: #c62828; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>💾 JobFlow — Save applied job</h1>
+  </div>
+
+  <div class="body">
+
+    <label>Groq API Key</label>
+    <div class="api-row">
+      <input id="api-key" type="password" placeholder="gsk_… (saved locally)">
+      <button id="save-key">Save key</button>
+    </div>
+
+    <div id="ai-status" class="hidden"></div>
+
+    <label>Job title (Arbetsförmedlingen)</label>
+    <div class="autocomplete-wrap">
+      <input id="title" type="text" placeholder="Type or wait for AI…" autocomplete="off">
+      <div id="title-suggestions"></div>
+    </div>
+    <div class="field-hint" id="title-hint">Must match an exact Arbetsförmedlingen title.</div>
+
+    <label>Company</label>
+    <input id="company" type="text" placeholder="Auto-filled by AI">
+
+    <label>City</label>
+    <input id="city" type="text" placeholder="Auto-filled by AI">
+
+    <label>Employment type</label>
+    <select id="employment">
+      <option>Heltid</option>
+      <option>Deltid</option>
+      <option>Vikariat</option>
+      <option>Sommarjobb</option>
+    </select>
+
+    <label>URL</label>
+    <input id="url" type="text" readonly>
+
+    <div class="btn-row">
+      <button class="secondary" id="retry">🔄 Re-extract</button>
+      <button class="primary" id="save">Save job</button>
+    </div>
+    <div id="save-status"></div>
+
+  </div>
+</body>
+<script src="popup.js"></script>
+</html>
