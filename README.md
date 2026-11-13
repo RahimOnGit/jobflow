@@ -9,14 +9,6 @@ Two pieces only:
    Arbetsförmedlingen's activity report for you, field by field, using Playwright.
    You handle BankID login and the final "submit" click yourself.
 
-## Why the title dropdown, not free typing?
-
-Arbetsförmedlingen's occupation field only accepts values from their fixed list
-(the one you gave me — 85 IT-related titles). Rather than trying to fuzzy-match
-your job posting's title to that list *during automation* (error-prone), you pick
-the correct canonical title *when you save the job* in the extension. The
-automation then always has an exact string to type, so the on-page autocomplete
-should surface it reliably.
 
 ## Setup
 
